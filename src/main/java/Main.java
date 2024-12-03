@@ -6,6 +6,6 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
-        System.out.println("invalid_command: not found");
+        System.out.println(input + ": not found");
     }
 }
