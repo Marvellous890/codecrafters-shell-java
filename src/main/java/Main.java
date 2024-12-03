@@ -8,9 +8,11 @@ public class Main {
 
         while(true) {
             String input = scanner.nextLine();
-            if (input.equals("exit")) {
+
+            if (input.startsWith("exit ")) {
                 break;
             }
+
             System.out.println(input + ": not found");
             print$();
         }
