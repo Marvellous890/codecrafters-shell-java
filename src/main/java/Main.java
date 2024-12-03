@@ -2,10 +2,18 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-         System.out.print("$ ");
+        print$();
 
         Scanner scanner = new Scanner(System.in);
-        String input = scanner.nextLine();
-        System.out.println(input + ": not found");
+
+        while(true) {
+            String input = scanner.nextLine();
+            System.out.println(input + ": not found");
+            print$();
+        }
+    }
+
+    public static void print$() {
+        System.out.print("$ ");
     }
 }
