@@ -1,6 +1,6 @@
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -9,7 +9,7 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
 
-        String[] commands = {"echo", "exit", "type"};
+        List<String> commands = List.of("exit", "echo", "type", "pwd");
         String parameter, command;
 
         while (true) {
@@ -35,7 +35,7 @@ public class Main {
                     break;
                 case "type":
                     parameter = input.substring(5);
-                    if (Arrays.asList(commands).contains(parameter)) {
+                    if (commands.contains(parameter)) {
                         System.out.println(parameter + " is a shell builtin");
                     } else {
                         String path = getPath(parameter);
@@ -55,6 +55,9 @@ public class Main {
                         Process p = Runtime.getRuntime().exec(fullPath.split(" "));
                         p.getInputStream().transferTo(System.out);
                     }
+                    break;
+                case "pwd":
+                    System.out.println(System.getProperty("user.dir"));
                     break;
             }
 
