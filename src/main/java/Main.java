@@ -6,14 +6,32 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
 
-        while(true) {
+        while (true) {
             String input = scanner.nextLine();
 
-            if (input.startsWith("exit ")) {
-                break;
+            String[] parts = input.split(" +");
+
+            if (parts.length == 0 || parts[0].isEmpty()) {
+                print$();
+                continue;
             }
 
-            System.out.println(input + ": not found");
+            switch (parts[0]) {
+                case "exit":
+                    if (parts.length > 1) {
+                        System.exit(Integer.parseInt(parts[1]));
+                    }
+                    break;
+                case "echo":
+                    if (parts.length > 1) {
+                        System.out.println(String.join(" ", parts).substring(5));
+                    }
+                    break;
+                default:
+                    System.out.println(input + ": not found");
+                    break;
+            }
+
             print$();
         }
     }
