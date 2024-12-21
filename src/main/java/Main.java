@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
@@ -5,6 +6,9 @@ public class Main {
         print$();
 
         Scanner scanner = new Scanner(System.in);
+
+        String[] commands = {"echo", "exit", "type"};
+        String typeArg;
 
         while (true) {
             String input = scanner.nextLine();
@@ -25,6 +29,14 @@ public class Main {
                 case "echo":
                     if (parts.length > 1) {
                         System.out.println(String.join(" ", parts).substring(5));
+                    }
+                    break;
+                case "type":
+                    typeArg = input.substring(5);
+                    if (Arrays.asList(commands).contains(typeArg)) {
+                        System.out.println(typeArg + " is a shell builtin");
+                    } else {
+                        System.out.println(typeArg + " not found");
                     }
                     break;
                 default:
