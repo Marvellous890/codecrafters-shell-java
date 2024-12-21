@@ -10,7 +10,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         String[] commands = {"echo", "exit", "type"};
-        String parameter;
+        String parameter, command;
 
         while (true) {
             String input = scanner.nextLine();
@@ -22,7 +22,7 @@ public class Main {
                 continue;
             }
 
-            switch (parts[0]) {
+            switch (command = parts[0]) {
                 case "exit":
                     if (parts.length > 1) {
                         System.exit(Integer.parseInt(parts[1]));
@@ -47,7 +47,14 @@ public class Main {
                     }
                     break;
                 default:
-                    System.out.println(input + ": command not found");
+                    String path = getPath(command);
+                    if (path == null) {
+                        System.out.printf("%s: command not found%n", command);
+                    } else {
+                        String fullPath = path + input.substring(command.length());
+                        Process p = Runtime.getRuntime().exec(fullPath.split(" "));
+                        p.getInputStream().transferTo(System.out);
+                    }
                     break;
             }
 
