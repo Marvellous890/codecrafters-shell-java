@@ -1,3 +1,5 @@
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -8,7 +10,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         String[] commands = {"echo", "exit", "type"};
-        String typeArg;
+        String parameter;
 
         while (true) {
             String input = scanner.nextLine();
@@ -32,11 +34,16 @@ public class Main {
                     }
                     break;
                 case "type":
-                    typeArg = input.substring(5);
-                    if (Arrays.asList(commands).contains(typeArg)) {
-                        System.out.println(typeArg + " is a shell builtin");
+                    parameter = input.substring(5);
+                    if (Arrays.asList(commands).contains(parameter)) {
+                        System.out.println(parameter + " is a shell builtin");
                     } else {
-                        System.out.println(typeArg + " not found");
+                        String path = getPath(parameter);
+                        if (path != null) {
+                            System.out.println(parameter + " is " + path);
+                        } else {
+                            System.out.println(parameter + ": not found");
+                        }
                     }
                     break;
                 default:
@@ -50,5 +57,15 @@ public class Main {
 
     public static void print$() {
         System.out.print("$ ");
+    }
+
+    private static String getPath(String parameter) {
+        for (String path : System.getenv("PATH").split(":")) {
+            Path fullPath = Path.of(path, parameter);
+            if (Files.isRegularFile(fullPath)) {
+                return fullPath.toString();
+            }
+        }
+        return null;
     }
 }
