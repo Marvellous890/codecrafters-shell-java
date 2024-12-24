@@ -139,7 +139,7 @@ public class Main {
         while (matcher.find()) {
             if (matcher.group(1) != null) {
                 // Single-quoted argument
-                arguments.add(unescape(matcher.group(1)));
+                arguments.add(matcher.group(1));
             } else if (matcher.group(2) != null) {
                 // Double-quoted argument
                 arguments.add(unescape(matcher.group(2)));
@@ -157,9 +157,7 @@ public class Main {
     }
 
     public static String unescape(String str) {
-        return str.replace("\\t", " ")
-                .replace("\\\"", "\"")
-                //.replace("\\'", "'")
+        return str.replace("\\\"", "\"")
                 .replace("\\\\", "\\");
     }
 }
