@@ -64,6 +64,13 @@ public class Main {
                 case "cd":
                     String dir = parts[1];
 
+                    if (dir.equals("~")) {
+                        if ((cwd = System.getenv("HOME")) == null) {
+                            cwd = System.getenv("HOMEPATH");
+                        }
+                        break;
+                    }
+
                     if (!dir.startsWith("/")) {
                         dir = cwd + "/" + dir;
                     }
@@ -74,6 +81,7 @@ public class Main {
                     } else {
                         System.out.printf("cd: %s: No such file or directory%n", dir);
                     }
+                    break;
             }
 
             print$();
