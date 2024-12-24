@@ -1,7 +1,11 @@
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -88,6 +92,19 @@ public class Main {
                         System.out.printf("cd: %s: No such file or directory%n", dir);
                     }
                     break;
+                case "cat":
+                    List<String> parsedArgs = parseArguments(input);
+                    parsedArgs.removeFirst();
+
+                    for (String p : parsedArgs) {
+                        Path file = Path.of(p);
+                        if (Files.isRegularFile(file)) {
+                            Files.lines(file).forEach(System.out::println);
+                        } else {
+                            System.out.printf("cat: %s: No such file or directory%n", file);
+                        }
+                    }
+                    break;
             }
 
             print$();
@@ -106,5 +123,27 @@ public class Main {
             }
         }
         return null;
+    }
+
+    public static List<String> parseArguments(String input) {
+        List<String> arguments = new ArrayList<>();
+        // Regex to match quoted or unquoted words
+        Pattern pattern = Pattern.compile("'([^']*)'|\"([^\"]*)\"|(\\S+)");
+        Matcher matcher = pattern.matcher(input);
+
+        while (matcher.find()) {
+            if (matcher.group(1) != null) {
+                // Single-quoted argument
+                arguments.add(matcher.group(1));
+            } else if (matcher.group(2) != null) {
+                // Double-quoted argument
+                arguments.add(matcher.group(2));
+            } else if (matcher.group(3) != null) {
+                // Unquoted argument
+                arguments.add(matcher.group(3));
+            }
+        }
+
+        return arguments;
     }
 }
