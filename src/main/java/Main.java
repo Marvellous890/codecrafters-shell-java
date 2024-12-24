@@ -160,8 +160,6 @@ public class Main {
         return str.replace("\\t", " ")
                 .replace("\\\"", "\"")
                 .replace("\\'", "'")
-                .replace("'\\'", "")
-                .replace("''", "")
                 .replace("\\\\", "\\");
     }
 }
