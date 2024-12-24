@@ -62,10 +62,15 @@ public class Main {
                     System.out.println(cwd);
                     break;
                 case "cd":
-
                     String dir = parts[1];
-                    if (Files.isDirectory(Path.of(dir))) {
-                        cwd = dir;
+
+                    if (!dir.startsWith("/")) {
+                        dir = cwd + "/" + dir;
+                    }
+
+                    Path _path = Path.of(dir);
+                    if (Files.isDirectory(_path)) {
+                        cwd = _path.normalize().toString();
                     } else {
                         System.out.printf("cd: %s: No such file or directory%n", dir);
                     }
