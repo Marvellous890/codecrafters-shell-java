@@ -157,11 +157,12 @@ public class Main {
     }
 
     public static String unescape(String str) {
-        return str.replace("\\n", " ")
+        return str.replace("\\n", "")
                 .replace("\\t", " ")
                 .replace("\\\"", "\"")
                 .replace("\\'", "'")
                 .replace("'\\'", "")
+                .replace("''", "")
                 .replace("\\\\", "\\");
     }
 }
