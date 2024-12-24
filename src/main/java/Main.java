@@ -157,11 +157,9 @@ public class Main {
     }
 
     public static String unescape(String str) {
-        // Replace backslashes followed by spaces with actual spaces
-        // str = str.replaceAll("\\\\ ", " ");
-        // Replace other escaped characters with their actual representations
-        return str.replace("\\n", "\n")
-                .replace("\\t", "\t")
+        // Preserve literal value of some, Replace other escaped characters with their actual representations
+        return str.replace("\\n", "n")
+                .replace("\\t", "t")
                 .replace("\\\"", "\"")
                 .replace("\\'", "'")
                 .replace("\\\\", "\\");
