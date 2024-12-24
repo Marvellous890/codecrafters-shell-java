@@ -32,7 +32,13 @@ public class Main {
                     break;
                 case "echo":
                     if (parts.length > 1) {
-                        System.out.println(String.join(" ", parts).substring(5));
+                        if (parts[1].startsWith("'")) {
+                            System.out.println(input.substring(6, input.length() - 1));
+                        } else if (parts[1].startsWith("\"")) {
+                            System.out.println(input.substring(6, input.length() - 1));
+                        } else {
+                            System.out.println(input.substring(5).trim());
+                        }
                     }
                     break;
                 case "type":
