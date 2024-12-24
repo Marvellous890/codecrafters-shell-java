@@ -37,7 +37,7 @@ public class Main {
                         } else if (parts[1].startsWith("\"")) {
                             System.out.println(input.substring(6, input.length() - 1));
                         } else {
-                            System.out.println(input.substring(5).trim());
+                            System.out.println(String.join(" ", parts).substring(5));
                         }
                     }
                     break;
