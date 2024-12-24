@@ -35,6 +35,12 @@ public class Main {
                     }
                     break;
                 case "echo":
+                    Pattern pattern = Pattern.compile("\\w+((\\\\ )+\\w+)");
+                    Matcher matcher = pattern.matcher(input);
+                    if (matcher.find()) {
+                        System.out.println(matcher.group(0).replace("\\ ", " "));
+                        break;
+                    }
                     List<String> _parsedArgs = parseArguments(input);
                     _parsedArgs.removeFirst();
                     System.out.println(_parsedArgs.stream().reduce((a, b) -> a + " " + b).orElse(""));
@@ -122,7 +128,7 @@ public class Main {
 
     public static List<String> parseArguments(String input) {
         List<String> arguments = new ArrayList<>();
-        // Regex to handle escaped characters within quotes
+        // Regex to handle quoted and unquoted arguments, including escape characters
         Pattern pattern = Pattern.compile("'((?:\\\\.|[^'\\\\])*)'|\"((?:\\\\.|[^\"\\\\])*)\"|(\\S+)");
         Matcher matcher = pattern.matcher(input);
 
@@ -136,14 +142,20 @@ public class Main {
             } else if (matcher.group(3) != null) {
                 // Unquoted argument
                 arguments.add(matcher.group(3));
-            }
+            }/* else if (matcher.group(4) != null) {
+                // Unquoted argument with backslashes followed by spaces
+                System.out.println("matcher.group(4)");
+                arguments.add(unescape(matcher.group(4)));
+            }*/
         }
 
         return arguments;
     }
 
     public static String unescape(String str) {
-        // Replace escaped characters with their actual representations
+        // Replace backslashes followed by spaces with actual spaces
+        str = str.replaceAll("\\\\ ", " ");
+        // Replace other escaped characters with their actual representations
         return str.replace("\\n", "\n")
                 .replace("\\t", "\t")
                 .replace("\\\"", "\"")
