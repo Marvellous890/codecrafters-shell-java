@@ -159,7 +159,7 @@ public class Main {
     public static String unescape(String str) {
         return str.replace("\\t", " ")
                 .replace("\\\"", "\"")
-                .replace("\\'", "'")
+                //.replace("\\'", "'")
                 .replace("\\\\", "\\");
     }
 }
