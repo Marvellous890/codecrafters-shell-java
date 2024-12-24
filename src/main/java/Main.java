@@ -157,8 +157,7 @@ public class Main {
     }
 
     public static String unescape(String str) {
-        return str.replace("\\n", "")
-                .replace("\\t", " ")
+        return str.replace("\\t", " ")
                 .replace("\\\"", "\"")
                 .replace("\\'", "'")
                 .replace("'\\'", "")
