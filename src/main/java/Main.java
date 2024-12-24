@@ -35,15 +35,9 @@ public class Main {
                     }
                     break;
                 case "echo":
-                    if (parts.length > 1) {
-                        if (parts[1].startsWith("'")) {
-                            System.out.println(input.substring(6, input.length() - 1));
-                        } else if (parts[1].startsWith("\"")) {
-                            System.out.println(input.substring(6, input.length() - 1));
-                        } else {
-                            System.out.println(String.join(" ", parts).substring(5));
-                        }
-                    }
+                    List<String> _parsedArgs = parseArguments(input);
+                    _parsedArgs.removeFirst();
+                    System.out.println(_parsedArgs.stream().reduce((a, b) -> a + " " + b).orElse(""));
                     break;
                 case "type":
                     parameter = input.substring(5);
@@ -128,7 +122,7 @@ public class Main {
     public static List<String> parseArguments(String input) {
         List<String> arguments = new ArrayList<>();
         // Regex to match quoted or unquoted words
-        Pattern pattern = Pattern.compile("'([^']*)'|\"([^\"]*)\"|(\\S+)");
+        Pattern pattern = Pattern.compile("'((?:\\\\.|[^'\\\\])*)'|\"((?:\\\\.|[^\"\\\\])*)\"|(\\S+)");
         Matcher matcher = pattern.matcher(input);
 
         while (matcher.find()) {
