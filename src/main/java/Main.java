@@ -157,11 +157,11 @@ public class Main {
     }
 
     public static String unescape(String str) {
-        // Preserve literal value of some, Replace other escaped characters with their actual representations
-        return str.replace("\\n", "n")
-                .replace("\\t", "t")
+        return str.replace("\\n", " ")
+                .replace("\\t", " ")
                 .replace("\\\"", "\"")
                 .replace("\\'", "'")
+                .replace("'\\'", "")
                 .replace("\\\\", "\\");
     }
 }
