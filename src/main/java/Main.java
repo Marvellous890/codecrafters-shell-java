@@ -9,8 +9,10 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
 
-        List<String> commands = List.of("exit", "echo", "type", "pwd");
+        List<String> commands = List.of("exit", "echo", "type", "pwd", "cd");
         String parameter, command;
+
+        String cwd = System.getProperty("user.dir"); // eqv to Path.of("").toAbsolutePath().toString();
 
         while (true) {
             String input = scanner.nextLine();
@@ -57,8 +59,16 @@ public class Main {
                     }
                     break;
                 case "pwd":
-                    System.out.println(System.getProperty("user.dir"));
+                    System.out.println(cwd);
                     break;
+                case "cd":
+
+                    String dir = parts[1];
+                    if (Files.isDirectory(Path.of(dir))) {
+                        cwd = dir;
+                    } else {
+                        System.out.printf("cd: %s: No such file or directory%n", dir);
+                    }
             }
 
             print$();
