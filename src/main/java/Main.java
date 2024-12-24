@@ -35,10 +35,14 @@ public class Main {
                     }
                     break;
                 case "echo":
-                    Pattern pattern = Pattern.compile("\\w+((\\\\ )+\\w+)");
+                    Pattern pattern = Pattern.compile("(\\w+(?:\\\\ )+\\w+)|(\\w+\\\\\\w+)");
                     Matcher matcher = pattern.matcher(input);
                     if (matcher.find()) {
-                        System.out.println(matcher.group(0).replace("\\ ", " "));
+                        if (matcher.group(1) != null) {
+                            System.out.println(matcher.group(1).replace("\\ ", " "));
+                        } else if (matcher.group(2) != null) {
+                            System.out.println(matcher.group(2).replace("\\", ""));
+                        }
                         break;
                     }
                     List<String> _parsedArgs = parseArguments(input);
