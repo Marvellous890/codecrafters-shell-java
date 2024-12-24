@@ -93,11 +93,12 @@ public class Main {
                     for (String p : parsedArgs) {
                         Path file = Path.of(p);
                         if (Files.isRegularFile(file)) {
-                            Files.lines(file).forEach(System.out::println);
+                            Files.lines(file).forEach(System.out::print);
                         } else {
-                            System.out.printf("cat: %s: No such file or directory%n", file);
+                            System.out.printf("cat: %s: No such file or directory", file);
                         }
                     }
+                    System.out.println();
                     break;
             }
 
@@ -121,17 +122,17 @@ public class Main {
 
     public static List<String> parseArguments(String input) {
         List<String> arguments = new ArrayList<>();
-        // Regex to match quoted or unquoted words
+        // Regex to handle escaped characters within quotes
         Pattern pattern = Pattern.compile("'((?:\\\\.|[^'\\\\])*)'|\"((?:\\\\.|[^\"\\\\])*)\"|(\\S+)");
         Matcher matcher = pattern.matcher(input);
 
         while (matcher.find()) {
             if (matcher.group(1) != null) {
                 // Single-quoted argument
-                arguments.add(matcher.group(1));
+                arguments.add(unescape(matcher.group(1)));
             } else if (matcher.group(2) != null) {
                 // Double-quoted argument
-                arguments.add(matcher.group(2));
+                arguments.add(unescape(matcher.group(2)));
             } else if (matcher.group(3) != null) {
                 // Unquoted argument
                 arguments.add(matcher.group(3));
@@ -139,5 +140,14 @@ public class Main {
         }
 
         return arguments;
+    }
+
+    public static String unescape(String str) {
+        // Replace escaped characters with their actual representations
+        return str.replace("\\n", "\n")
+                .replace("\\t", "\t")
+                .replace("\\\"", "\"")
+                .replace("\\'", "'")
+                .replace("\\\\", "\\");
     }
 }
